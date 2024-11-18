@@ -8,9 +8,7 @@ const AllBlogComponents = () => {
                 <div className="w-full flex justify-center gap-7 flex-wrap">
                     <CardBlog/>
                     <CardBlog/>
-                    <CardBlog/>
-                    
-                    
+                    <CardBlog/>   
                 </div>
             </div>
 

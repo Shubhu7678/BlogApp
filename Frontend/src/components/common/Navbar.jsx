@@ -14,14 +14,14 @@ const Navbar = () => {
                             ShubhBlogs
                         </NavLink>
                         <nav className="flex items-center gap-8">
-                            <NavLink className="text-lg font-sans text-gray-200 hover:text-yellow-400 duration-300">Home</NavLink>
-                            <NavLink className="text-lg font-sans text-gray-200 hover:text-yellow-400 duration-300">Articles</NavLink>
-                            <NavLink className="text-lg font-sans text-gray-200 hover:text-yellow-400 duration-300">About</NavLink>
-                            <NavLink className="text-lg font-sans text-gray-200 hover:text-yellow-400 duration-300">Contact Us</NavLink>
+                            <NavLink to="/" className="text-lg font-sans text-gray-200 hover:text-yellow-400 duration-300">Home</NavLink>
+                            <NavLink to='/blogs' className="text-lg font-sans text-gray-200 hover:text-yellow-400 duration-300">Articles</NavLink>
+                            <NavLink to='/about' className="text-lg font-sans text-gray-200 hover:text-yellow-400 duration-300">About</NavLink>
+                            <NavLink to='/contact' className="text-lg font-sans text-gray-200 hover:text-yellow-400 duration-300">Contact Us</NavLink>
                         </nav>
                         <div className="flex items-center gap-4">
-                            <NavLink className="px-3 py-1 bg-gray-600 text-md rounded-md hover:text-yellow-400 duration-300">Login</NavLink>
-                            <NavLink className="px-3 py-1 bg-gray-600 text-md rounded-md hover:text-yellow-400 duration-300">SignIn</NavLink>
+                            <NavLink to="/login" className="px-3 py-2 bg-gray-600 text-md rounded-md hover:text-yellow-400 duration-300">Login</NavLink>
+                            <NavLink to="/signup" className="px-3 py-2 bg-gray-600 text-md rounded-md hover:text-yellow-400 duration-300">SignIn</NavLink>
                         </div>
                     </div>
                 </div>
