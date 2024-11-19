@@ -20,17 +20,15 @@ const Login = () => {
         formState: { errors, isSubmitSuccessful },
     } = useForm();
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     // const dispatch = useDispatch();
 
     const [loading, setLoading] = useState(false);
 
     const onSubmit = (data) => {
 
-        // login(data,navigate,dispatch);
-        // reset();
-        console.log(data);
-        signup(data);
+        signup(data,navigate);
+        reset();
 
     }
 

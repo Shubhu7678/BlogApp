@@ -1,10 +1,17 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+
 
 const Navbar = () => {
+
+    const { token } = useSelector((state) => state.auth);
+    const { user } = useSelector((state) => state.profile); 
+    // console.log(user);
+    // console.log("Token : ", token);
     return (
         <>
-            <div className="navbar w-full bg-gray-800 text-gray-50 overflow-hidden">
+            <div className="navbar w-full bg-gray-800 text-gray-50">
                 {/* <div className="flex-1">
                     <a className="btn btn-ghost text-xl">daisyUI</a>
                 </div> */}
@@ -14,14 +21,55 @@ const Navbar = () => {
                             ShubhBlogs
                         </NavLink>
                         <nav className="flex items-center gap-8">
-                            <NavLink to="/" className="text-lg font-sans text-gray-200 hover:text-yellow-400 duration-300">Home</NavLink>
-                            <NavLink to='/blogs' className="text-lg font-sans text-gray-200 hover:text-yellow-400 duration-300">Articles</NavLink>
-                            <NavLink to='/about' className="text-lg font-sans text-gray-200 hover:text-yellow-400 duration-300">About</NavLink>
-                            <NavLink to='/contact' className="text-lg font-sans text-gray-200 hover:text-yellow-400 duration-300">Contact Us</NavLink>
+                            <NavLink to="/" className="text-lg font-sans text-gray-400 hover:text-yellow-400 duration-300">Home</NavLink>
+                            <NavLink to='/blogs' className="text-lg font-sans text-gray-400 hover:text-yellow-400 duration-300">Articles</NavLink>
+                            <NavLink to='/about' className="text-lg font-sans text-gray-400 hover:text-yellow-400 duration-300">About</NavLink>
+                            <NavLink to='/contact' className="text-lg font-sans text-gray-400 hover:text-yellow-400 duration-300">Contact Us</NavLink>
                         </nav>
                         <div className="flex items-center gap-4">
-                            <NavLink to="/login" className="px-3 py-2 bg-gray-600 text-md rounded-md hover:text-yellow-400 duration-300">Login</NavLink>
-                            <NavLink to="/signup" className="px-3 py-2 bg-gray-600 text-md rounded-md hover:text-yellow-400 duration-300">SignIn</NavLink>
+                            {
+                                token ? (
+                                    <>
+                                        <div className="dropdown dropdown-end">
+                                            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                                                <div className="w-9 rounded-full">
+                                                    <img
+                                                        alt="Tailwind CSS Navbar component"
+                                                        src={user.userImage} />
+                                                </div>
+                                            </div>
+                                            <ul
+                                                tabIndex={0}
+                                                className="menu menu-sm dropdown-content bg-base-100 text-gray-800 rounded-box z-[4] mt-3 w-52 p-2 shadow">
+                                                <li>
+                                                    <NavLink to="/dashboard/my-profile" className="hover:bg-gray-100 p-2 rounded-md">
+                                                        Profile
+                                                        <span className="badge">new</span>
+                                                    </NavLink>
+                                                </li>
+                                                <li>
+                                                    <NavLink to="/dashboard/setting" className="hover:bg-gray-100 p-2 rounded-md">
+                                                        Settings
+                                                    </NavLink>
+                                                </li>
+                                                <li>
+                                                   <NavLink to="/dashboard/my-blogs" className="hover:bg-gray-100 p-2 rounded-md">
+                                                        Blogs
+                                                    </NavLink>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </>
+                                ) :
+                                    (
+                                        <>
+                                            <NavLink to="/login" className="px-3 py-2 bg-gray-600 text-md rounded-md hover:text-yellow-400 duration-300">Login</NavLink>
+                                            <NavLink to="/signup" className="px-3 py-2 bg-gray-600 text-md rounded-md hover:text-yellow-400 duration-300">SignIn</NavLink>
+                                        </>
+                                    )
+                            }
+
                         </div>
                     </div>
                 </div>

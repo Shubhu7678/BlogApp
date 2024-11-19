@@ -1,9 +1,11 @@
 import dotenv from "dotenv";
 import express from "express";
 const router = express.Router();
-import { signup } from '../controllers/auth.js';
+import { signup,login } from '../controllers/auth.js';
 
 router.post('/signup', signup);
+
+router.post('/login', login);
 
 
 export default router;

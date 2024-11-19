@@ -1,33 +1,35 @@
 import React, { useState } from 'react'
 import SignUpImage from '../assets/Signup.jpeg'
 import { NavLink } from 'react-router-dom'
-// import { useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
+import { login } from '../services/operations/authApis'
 
-// import { login } from '../services/operations/authApi';
-// import { useNavigate } from 'react-router-dom';
-// import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 const Login = () => {
 
-    // const { register,
-    //     handleSubmit,
-    //     reset,
-    //     setValue,
-    //     getValues,
-    //     formState: { errors, isSubmitSuccessful },
-    // } = useForm();
+    const { register,
+        handleSubmit,
+        reset,
+        setValue,
+        getValues,
+        formState: { errors, isSubmitSuccessful },
+    } = useForm();
 
-    // const navigate = useNavigate();
-    // const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    // const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    // const onSubmit = (data) => {
+    const onSubmit = (data) => {
 
-    //     login(data,navigate,dispatch);
-    //     reset();
+        // login(data,navigate,dispatch);
+        login(data,navigate,dispatch);
+        console.log(data);
+        // reset();
 
-    // }
+    }
     return (
         <div className="bg-gray-900">
             <div className="w-11/12 mx-auto h-[calc(100vh-64px)] flex items-center justify-center">
@@ -38,7 +40,7 @@ const Login = () => {
                                 <h1 className="text-4xl font-semibold">Login to your account</h1>
                                 <p className="text-sm font-normal text-gray-400">Welcome Back login to continue. </p>
                                 <div>
-                                    <form >
+                                    <form onSubmit={handleSubmit(onSubmit)} >
                                         <div className="mb-3">
                                             <label className="text-sm" htmlFor="email">Email <sup className="text-red-500">*</sup></label>
                                             <input
@@ -48,9 +50,9 @@ const Login = () => {
                                                     boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
                                                 }}
                                                 className="input input-bordered w-full bg-gray-700" placeholder="Email"
-                                            // {...register('email', { required: true })}
+                                            {...register('email', { required: true })}
                                             />
-                                            {/* {errors.email && <span className="text-red-500">Email is required**</span>} */}
+                                            {errors.email && <span className="text-red-500 text-sm pl-2 ">Email is required**</span>}
                                         </div>
                                         <div className="mb-3 gap-2">
                                             <label className="text-sm" htmlFor="password">Password <sup className="text-red-500">*</sup></label>
@@ -61,9 +63,9 @@ const Login = () => {
                                                     boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
                                                 }}
                                                 className="input input-bordered w-full bg-gray-700" placeholder="Password"
-                                            // {...register('password', { required: true })}
+                                            {...register('password', { required: true })}
                                             />
-                                            {/* {errors.password && <span className="text-red-500">Password is required**</span>} */}
+                                            {errors.password && <span className="text-red-500 text-sm pl-2">Password is required**</span>}
                                         </div>
                                         <button className="py-3 text-black w-full bg-yellow-500 mt-5 rounded-md ">Login</button>
                                     </form>
