@@ -154,3 +154,27 @@ export const login = async (req, res) => {
         })
     }
 }
+
+export const logout = async (req, res) => { 
+
+    try {
+          
+        res.cookie('token', '', { expires: new Date(Date.now()), httpOnly: true });
+       return  res.status(200).json({
+
+            success: true,
+            message: "User logged out successfully"
+        })
+
+
+    } catch (error) { 
+
+        console.log("Error occured : ", error);
+        return res.status(500).json({
+
+            success: false,
+            message: 'Internal Server Error',
+            error: error.message,
+        })
+    }
+}

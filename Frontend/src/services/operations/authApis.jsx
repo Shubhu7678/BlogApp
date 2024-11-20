@@ -4,7 +4,7 @@ import { toast } from "react-hot-toast";
 import { setToken } from "../../slices/authSlice";
 import {setUser } from '../../slices/profileSlice'
 
-const { SIGNUP_API,LOGIN_API } = authEndPoints;
+const { SIGNUP_API,LOGIN_API,LOGOUT_API } = authEndPoints;
 
 export const signup = async(data,navigate) => { 
 
@@ -60,4 +60,33 @@ export const login = async (data, navigate, dispatch) => {
     }
 
     toast.dismiss(toastId);
- }
+}
+ 
+export const logout = async(navigate,dispatch) => { 
+
+    const toastId = toast.loading('Loading...');
+    try {
+
+        const response = await apiConnector("POST", LOGOUT_API, {});
+
+        if (!response.data.success) { 
+
+            throw new Error(response.data.message);
+        }
+
+        toast.success(response.data.message);
+        dispatch(setToken(''));
+        dispatch(setUser(''));
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        toast.dismiss(toastId);
+        navigate('/login');
+
+    } catch (error) { 
+
+        console.log("Logout Error Occured : ", error);
+        toast.error(error.response.data.message);
+        toast.dismiss(toastId);
+    }
+
+}
