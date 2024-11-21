@@ -1,5 +1,5 @@
 import React from 'react'
-import ProfileMain from './profileMain'
+import ProfileMain from './ProfileMain'
 import ProfileAbout from './ProfileAbout'
 import AdditionalDetails from './AdditionalDetails'
 
