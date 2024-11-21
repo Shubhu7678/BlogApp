@@ -127,6 +127,8 @@ export const login = async (req, res) => {
             userImage : userExist.userImage,
         }
 
+        console.log("JWT_SECRET:", process.env.JWT_SECRET);
+
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '8h' });
         
         const option = {

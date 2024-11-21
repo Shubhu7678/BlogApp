@@ -1,5 +1,6 @@
 // import { apiConnector } from "./apiconnector";
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+// const BASE_URL = import.meta.env.VITE_BASE_URL; 
+const BASE_URL = 'https://blog-app-api-mu-rosy.vercel.app'
 
 export const authEndPoints = {
 
