@@ -6,7 +6,7 @@ const OpenRoute = ({children}) => {
    
     const { token } = useSelector((state) => state.auth);
     const navigate = useNavigate();
-    console.log("Token : ", token);
+    // console.log("Token : ", token);
 
     useEffect(() => { 
 
@@ -17,7 +17,7 @@ const OpenRoute = ({children}) => {
 
     },[token,navigate])
     
-    if (token === null) {
+    if (!token) {
 
         return children
     }
