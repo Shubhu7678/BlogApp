@@ -18,10 +18,16 @@ app.get('/', (req, res) => {
 
 app.use(cors(
     {
-        origin: "http://localhost:3000",
+        origin: "https://blog-app-roan-phi.vercel.app",
         credentials: true
     }
 ));
+// app.use(cors(
+//     {
+//         origin: "http://localhost:3000",
+//         credentials: true
+//     }
+// ));
 app.use(express.json());
 app.use(cookieParser());
 
