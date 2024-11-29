@@ -10,6 +10,9 @@ import OpenRoute from './components/core/Auth/OpenRoute'
 import PrivateRoute from './components/core/Auth/PrivateRoute'
 import ErrorPage from './pages/ErrorPage'
 import AddBlog from './components/core/Dashboard/AddBlog/AddBlog'
+import Categories from './components/core/Dashboard/Category/Categories'
+import AddCategory from './components/core/Dashboard/Category/AddCategory'
+import UpdateCategory from './components/core/Dashboard/Category/UpdateCategory'
 
 
 function App() {
@@ -44,6 +47,22 @@ function App() {
                 <AddBlog />
               </PrivateRoute>
             } />
+            <Route path='/dashboard/categories' element={
+              <PrivateRoute>
+                <Categories />
+              </PrivateRoute>
+            } />
+            <Route path='/dashboard/categories/add-category' element={
+              <PrivateRoute>
+                <AddCategory />
+              </PrivateRoute>
+            } />
+            <Route path='/dashboard/categories/:categoryId' element={
+              <PrivateRoute>
+                <UpdateCategory />
+              </PrivateRoute>
+            } />
+            
           </Route>
           <Route path="*" element={<ErrorPage />} />
         </Routes>

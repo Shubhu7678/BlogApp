@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { indianStates } from "../../../../data/StatesData";
 import { ImCancelCircle } from "react-icons/im";
-import {useForm} from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 
 const BlogForm = () => {
@@ -19,7 +19,7 @@ const BlogForm = () => {
         }
     }
 
-    const removeBlogTags = (index) => { 
+    const removeBlogTags = (index) => {
 
         setBlogTags(blogTags.filter((tag, i) => index !== i));
     }
@@ -33,9 +33,10 @@ const BlogForm = () => {
         formState: { errors, isSubmitSuccessful },
     } = useForm();
 
-    const onSubmit = (data) => { 
+    const onSubmit = (data) => {
 
         console.log(data);
+        
     }
 
 
@@ -61,7 +62,7 @@ const BlogForm = () => {
                         rows="5"
                         placeholder="Enter Blog Description"
                         className="bg-gray-900 p-2 mt-1 w-full border-b-[1px] border-gray-500 outline-none rounded-md"
-                        {...register("blogDescription",{required : true})}
+                        {...register("blogDescription", { required: true })}
                     />
                     {errors.blogDescription && <span className="text-red-500 text-sm">Blog Description is required</span>}
                 </div>
@@ -80,7 +81,7 @@ const BlogForm = () => {
                                 <option key={index} value={state}>{state}</option>
                             ))
                         }
-                        
+
                     </select>
                     {errors.city && <span className="text-red-500 text-sm">City is required</span>}
                 </div>
@@ -120,12 +121,12 @@ const BlogForm = () => {
                         name="category"
                         id="category"
                         className="py-2 px-2 mt-1 w-full bg-gray-900 border-b-[1px] border-gray-500 outline-none text-gray-400 rounded-md"
-                        {...register("category", { required: true })}                    
+                        {...register("category", { required: true })}
                     >
                         <option value="">Select City</option>
                         <option value="1">Option 1</option>
                         <option value="2">Option 2</option>
-                        <option value="3">Option 3</option> 
+                        <option value="3">Option 3</option>
                     </select>
                     {errors.category && <span className="text-red-500 text-sm">Category is required</span>}
                 </div>
@@ -145,7 +146,6 @@ const BlogForm = () => {
                         className="py-2 px-4 mt-3 font-mono bg-yellow-600 text-gray-900 rounded-sm hover:bg-yellow-700 duration-300"
                     >Submit</button>
                 </div>
-                
             </form>
         </div>
     )

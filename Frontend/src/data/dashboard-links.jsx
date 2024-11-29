@@ -3,6 +3,8 @@ import { MdOutlineDashboardCustomize } from "react-icons/md";
 import { TbBrandBlogger } from "react-icons/tb";
 import { IoSettingsOutline } from "react-icons/io5";
 import { IoAddCircleOutline } from "react-icons/io5";
+import { MdOutlineCategory } from "react-icons/md";
+
 export const dashboardLinks = [
     {
         id: 1,
@@ -25,15 +27,21 @@ export const dashboardLinks = [
         icon: <IoAddCircleOutline className="text-lg" />,
         
     },
+    {
+        id: 4,
+        title: 'Categories',
+        path: 'dashboard/categories',
+        icon : <MdOutlineCategory className="text-lg" />
+    },
     { 
-        id: 3,
+        id: 5,
         title: "Profile",
         path: 'dashboard/my-profile',
         icon: <CgProfile className="text-lg" />,
         
     },
     {
-        id: 4,
+        id: 6,
         title: "Setting",
         path: 'dashboard/setting',
         icon: <IoSettingsOutline className="text-lg" />,
