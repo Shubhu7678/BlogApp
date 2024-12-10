@@ -13,6 +13,7 @@ export const categoryEndPoints = {
 
     CREATE_CATEGORY_API: BASE_URL + '/api/v1/blog/add-category',
     GET_ALL_CATEGORIES_API: BASE_URL + '/api/v1/blog/getAllCategories',
-    GET_CATEGORY_BY_ID_API: BASE_URL + '/api/v1/blog/getCategory'
+    GET_CATEGORY_BY_ID_API: BASE_URL + '/api/v1/blog/getCategory',
+    UPDATE_CATEGORY_API: BASE_URL + '/api/v1/blog/updateCategory'
 
 }

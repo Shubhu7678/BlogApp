@@ -102,3 +102,56 @@ export const getCategoryById = async (req, res) => {
         });
     }
 }
+
+export const updateCategory = async (req, res) => { 
+
+    try {
+
+        console.log(req.body);
+        const { name = null, description = null, categoryId } = req.body;
+        
+        if (!categoryId) { 
+
+            return res.status(400).json({
+                success: false,
+                message: 'Category ID is required'
+            })
+        }
+          
+        const categoryDetails = await Category.findById(categoryId);
+        if (!categoryDetails) { 
+
+            return res.status(401).json({
+
+                success: false,
+                message: 'Category Id not matched'
+            });
+        }
+
+        if (name) { 
+
+            categoryDetails.name = name;
+        }
+        if (description) { 
+             categoryDetails.description = description;
+        }
+
+        const updatedCategory = await categoryDetails.save();
+        
+        return res.status(200).json({
+
+            success: true,
+            message: 'Category Updated Successfully...',
+            data : updatedCategory,
+        })
+
+    } catch (error) { 
+ 
+        console.log("Error occured : ", error);
+        return res.status(500).json({
+            success: false,
+            message : 'Internal Server Error'
+        })
+
+    }
+}

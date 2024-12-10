@@ -32,6 +32,11 @@ app.use(cors(
 app.use(express.json());
 app.use(cookieParser());
 
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: "/tmp",
+}));
+
 app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/blog', blogRoutes);
 

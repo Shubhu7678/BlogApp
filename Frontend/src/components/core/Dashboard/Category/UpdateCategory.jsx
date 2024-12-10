@@ -17,7 +17,7 @@ const UpdateCategory = () => {
         const getRelatedCategory = async () => { 
              
             const result = await getCategoryById(categoryId,token);
-            console.log("result : ", result);
+            // console.log("result : ", result);
             dispatch(setCategory(result));
             dispatch(setEditCategory(true));
         }
