@@ -3,7 +3,7 @@ import { apiConnector } from "../apiconnector";
 
 import { categoryEndPoints } from '../apis';
 
-const { CREATE_CATEGORY_API,GET_ALL_CATEGORIES_API,GET_CATEGORY_BY_ID_API,UPDATE_CATEGORY_API } = categoryEndPoints;
+const { CREATE_CATEGORY_API,GET_ALL_CATEGORIES_API,GET_CATEGORY_BY_ID_API,UPDATE_CATEGORY_API,DELETE_CATEGORY_API } = categoryEndPoints;
 
 export const addCategoryData = async (data,token) => { 
 
@@ -100,9 +100,9 @@ export const updateCategoryData = async (formData, token) => {
      
     let result = [];
     const toastId = toast.loading('Loading...');
-     for (let [key, value] of formData.entries()) {
-    console.log(`${key}: ${value}`);
-}
+//      for (let [key, value] of formData.entries()) {
+//     console.log(`${key}: ${value}`);
+// }
 
     try {
 
@@ -123,6 +123,38 @@ export const updateCategoryData = async (formData, token) => {
 
         console.log("Update Category Error Occured : ", error);
         toast.error(error.response.data.message);
+    }
+
+    toast.dismiss(toastId);
+    return result;
+
+}
+
+export const deleteCategoryData = async (categoryId,token) => { 
+
+    const toastId = toast.loading('Loading...');
+    let result = [];
+    try {
+
+        const response = await apiConnector('POST', DELETE_CATEGORY_API, { categoryId },
+            {
+                'Authorization' : `Bearer ${token}`
+            }
+        )
+
+        if (!response.data.success) { 
+
+            throw new Error(response.data.message);
+        }
+
+        result = response.data.data;
+        toast.success(response.data.message);
+
+    } catch (error) { 
+
+        console.log('Error occured : ', error);
+        toast.error(error.response.data.message);
+
     }
 
     toast.dismiss(toastId);

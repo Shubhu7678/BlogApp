@@ -3,7 +3,7 @@ import { IoMdAdd } from "react-icons/io";
 import { IoMdAddCircle } from "react-icons/io";
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { getAllCategories } from '../../../../services/operations/categoryApis';
+import { getAllCategories,deleteCategoryData } from '../../../../services/operations/categoryApis';
 import { setCategories } from '../../../../slices/categorySlice';
 
 const Categories = () => {
@@ -22,7 +22,16 @@ const Categories = () => {
         allCategories();
     }, [])
 
-    console.log(categories);
+    // console.log(categories);
+
+    const handleDeleteCategory = async (categoryId) => { 
+
+        const result = await deleteCategoryData(categoryId, token);
+        if (result) { 
+
+            console.log(result);
+        }
+    }
 
     return (
         <div className="bg-gray-900 h-[calc(100vh-64px)] overflow-x-auto w-full">
@@ -65,7 +74,7 @@ const Categories = () => {
                                                             <span>Edit</span>
                                                         </NavLink>
                                                         <NavLink
-                                                            to="/dashboard/categories/1"
+                                                            onClick={() => handleDeleteCategory(category?._id)}
                                                             className="w-fit px-3 py-2 bg-orange-600 rounded-md text-gray-100 font-mono flex items-center gap-2"
                                                         >
                                                             <span>Delete</span>

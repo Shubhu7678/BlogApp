@@ -155,3 +155,53 @@ export const updateCategory = async (req, res) => {
 
     }
 }
+
+export const deleteCategory = async (req, res) => { 
+
+    try {
+ 
+        const { categoryId } = req.body;
+
+        if (!categoryId) { 
+
+            return res.status(400).json({
+
+                success: false,
+                message: 'Category Id is required',
+            });
+        }
+
+        const categoryExist = await Category.findById(categoryId);
+
+        if (!categoryExist) { 
+
+            return res.status(401).json({
+
+                success: false,
+                message: 'No category found with the id'
+            });
+        }
+
+        const deleteCategory = await Category.deleteOne({ _id: categoryId });
+
+        console.log(deleteCategory);
+
+            return res.status(200).json({
+
+                success: true,
+                message: "Category Deleted Successfully...",
+                data : categoryExist
+            })
+        
+
+
+
+    } catch (error) { 
+
+        return res.status(500).json({
+
+            success: false,
+            message : "Internal Server Error in Delete Category module.."
+        }) 
+    }
+}
