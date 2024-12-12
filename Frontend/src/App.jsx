@@ -12,7 +12,9 @@ import ErrorPage from './pages/ErrorPage'
 import AddBlog from './components/core/Dashboard/AddBlog/AddBlog'
 import Categories from './components/core/Dashboard/Category/Categories'
 import AddCategory from './components/core/Dashboard/Category/AddCategory'
-import UpdateCategory from './components/core/Dashboard/Category/UpdateCategory'
+import UpdateCategory from './components/core/Dashboard/Category/UpdateCategory';
+import MyBlogs from './components/core/Dashboard/MyBlogs/myBlogs' 
+import EditBlog from './components/core/Dashboard/AddBlog/EditBlog'
 
 
 function App() {
@@ -42,9 +44,19 @@ function App() {
                 <Profile />
               </PrivateRoute>
             } />
+            <Route path="/dashboard/my-blogs" element={
+              <PrivateRoute>
+                 <MyBlogs />
+              </PrivateRoute>
+            } />
             <Route path="/dashboard/add-blog" element={
               <PrivateRoute>
                 <AddBlog />
+              </PrivateRoute>
+            } />
+            <Route path="/dashboard/edit-blog/:blogId" element={
+              <PrivateRoute>
+                <EditBlog />
               </PrivateRoute>
             } />
             <Route path='/dashboard/categories' element={

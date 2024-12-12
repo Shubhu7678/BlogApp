@@ -29,7 +29,7 @@ const Categories = () => {
         const result = await deleteCategoryData(categoryId, token);
         if (result) { 
 
-            console.log(result);
+           dispatch(setCategories(categories.filter((c) => c._id !== result._id)))
         }
     }
 
@@ -62,7 +62,7 @@ const Categories = () => {
                                     categories.length > 0 && (
                                         categories.map((category, index) => (
                                             <tr key={index}>
-                                                <th>1</th>
+                                                <th>{index + 1}</th>
                                                 <td>{ category?.name }</td>
                                                 <td>{ category?.description }</td>
                                                 <td>
