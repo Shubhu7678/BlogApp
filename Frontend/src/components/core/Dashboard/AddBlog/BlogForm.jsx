@@ -7,6 +7,7 @@ import { setCategories } from "../../../../slices/categorySlice";
 import { getAllCategories } from "../../../../services/operations/categoryApis";
 import { addBlogData } from "../../../../services/operations/blogApi";
 import { setTotalBlogs } from '../../../../slices/blogSlice';
+import { useNavigate } from 'react-router-dom';
 
 
 const BlogForm = () => {
@@ -17,6 +18,7 @@ const BlogForm = () => {
     const { token } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const [blogTags, setBlogTags] = useState([]);
+    const navigate = useNavigate();
 
     const handleTagsChange = (e) => {
 
@@ -43,7 +45,7 @@ const BlogForm = () => {
         formState: { errors, isSubmitSuccessful },
     } = useForm();
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
 
         if (editBlog) {
 
@@ -56,27 +58,27 @@ const BlogForm = () => {
             formData.append('city', data.city);
             formData.append('tags', JSON.stringify(data.tags));
             formData.append('category', data.category);
-            formData.append('thumbnail', data.thumbnail[0]);
-            console.log("data :: ", data.thumbnail[0]);
+            formData.append('thumbnail', data.thumbnail);
+            // console.log("data :: ", data.thumbnail);  
 
             try {
 
-                const result = addBlogData(formData, token);
-                if (result) { 
+                const result = await addBlogData(formData, token);
+                if (result) {
 
-                    // dispatch(setTotalBlogs([...totalBlogs, result]));
-
-                    // reset();
-                    // navigate('/dashboard/blogs');
+                    dispatch(setTotalBlogs([...totalBlogs, result]));
+                    reset();
+                    setBlogTags([]);
+                    navigate('/dashboard/my-blogs');
                 }
-            } catch (error) { 
+            } catch (error) {
 
                 console.log("Error Occured : ", error);
             }
         }
     }
 
-    const handleThumbnailChange = (e) => { 
+    const handleThumbnailChange = (e) => {
 
         const file = e.target.files[0];
         setValue('thumbnail', file);
@@ -207,7 +209,7 @@ const BlogForm = () => {
                         name="thumbnail"
                         onChange={handleThumbnailChange}
                         className="py-2 px-2 mt-1 w-full bg-gray-900 border-b-[1px] border-gray-500 outline-none text-gray-400 rounded-md"
-                    
+
                     />
                     {errors.thumbnail && <span className="text-red-500 text-sm">Blog Thumbnail is required</span>}
                 </div>

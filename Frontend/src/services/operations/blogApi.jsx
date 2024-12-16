@@ -2,7 +2,7 @@ import { apiConnector } from '../apiconnector';
 import { blogEndPoints } from '../apis';
 import { toast } from 'react-hot-toast'
 
-const { CREATE_BLOG_API } = blogEndPoints;
+const { CREATE_BLOG_API, GET_ALL_BLOGS_API } = blogEndPoints;
 
 export const addBlogData = async (formData, token) => {
 
@@ -18,9 +18,7 @@ export const addBlogData = async (formData, token) => {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
-
             },
-
         )
 
         if (!response.data.success) {
@@ -37,6 +35,34 @@ export const addBlogData = async (formData, token) => {
         toast.error(error.response.data.message);
     }
 
+    toast.dismiss(toastId);
+    return result;
+}
+
+export const getAllBlogs = async (token) => {
+
+    let result = [];
+    const toastId = toast.loading('Loading...');
+    try {
+
+        const response = await apiConnector('GET', GET_ALL_BLOGS_API, {},
+            {
+                'Authorization': `Bearer ${token}`,
+            }
+        );
+
+        if (!response.data.success) {
+
+            throw new Error(response.data.message);
+        }
+
+        result = response.data.data;
+
+    } catch (error) {
+
+        console.log("Get All Blogs Error Occured : ", error);
+        toast.error(error.response.data.message);
+    }
     toast.dismiss(toastId);
     return result;
 }
