@@ -18,3 +18,13 @@ export const categoryEndPoints = {
     DELETE_CATEGORY_API: BASE_URL + '/api/v1/blog/deleteCategory',
 
 }
+
+export const blogEndPoints = {
+
+    CREATE_BLOG_API: BASE_URL + '/api/v1/blog/add-blog',
+    GET_ALL_BLOGS_API: BASE_URL + '/api/v1/blog/getAllBlogs',
+    GET_BLOG_BY_ID_API: BASE_URL + '/api/v1/blog/getBlog',
+    UPDATE_BLOG_API: BASE_URL + '/api/v1/blog/updateBlog',
+    DELETE_BLOG_API: BASE_URL + '/api/v1/blog/deleteBlog',
+}
+

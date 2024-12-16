@@ -1,8 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BsCloudLightningRain } from "react-icons/bs";
 import BlogForm from './BlogForm';
+import { useDispatch } from 'react-redux';
+import { setEditBlog } from '../../../../slices/blogSlice';
 
 const AddBlog = () => {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => { 
+
+    dispatch(setEditBlog(false));
+
+  },[])
+
+
   return (
     <div className="bg-gray-900 h-[calc(100vh-64px)] overflow-y-auto w-full">
       <div className=" w-[850px]  flex gap-4 mx-auto pt-8">

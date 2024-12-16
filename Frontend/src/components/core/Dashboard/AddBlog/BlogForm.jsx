@@ -1,19 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { indianStates } from "../../../../data/StatesData";
 import { ImCancelCircle } from "react-icons/im";
 import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from "react-redux";
+import { setCategories } from "../../../../slices/categorySlice";
+import { getAllCategories } from "../../../../services/operations/categoryApis";
+import { addBlogData } from "../../../../services/operations/blogApi";
+import { setTotalBlogs } from '../../../../slices/blogSlice';
 
 
 const BlogForm = () => {
 
-    // console.log(indianStates); 
 
+    const { editBlog, totalBlogs } = useSelector((state) => state.blog);
+    const { categories } = useSelector((state) => state.category);
+    const { token } = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
     const [blogTags, setBlogTags] = useState([]);
 
     const handleTagsChange = (e) => {
 
         if (e.key === 'Enter' || e.key === ',') {
 
+            e.preventDefault();
             setBlogTags([...blogTags, e.target.value]);
             e.target.value = '';
         }
@@ -21,7 +30,8 @@ const BlogForm = () => {
 
     const removeBlogTags = (index) => {
 
-        setBlogTags(blogTags.filter((tag, i) => index !== i));
+        const updatedTags = blogTags.filter((tag, i) => index !== i);
+        setBlogTags(updatedTags);
     }
 
     const {
@@ -35,9 +45,65 @@ const BlogForm = () => {
 
     const onSubmit = (data) => {
 
-        console.log(data);
-        
+        if (editBlog) {
+
+
+        } else {
+
+            const formData = new FormData();
+            formData.append('blogTitle', data.blogTitle);
+            formData.append('blogDescription', data.blogDescription);
+            formData.append('city', data.city);
+            formData.append('tags', JSON.stringify(data.tags));
+            formData.append('category', data.category);
+            formData.append('thumbnail', data.thumbnail[0]);
+            console.log("data :: ", data.thumbnail[0]);
+
+            try {
+
+                const result = addBlogData(formData, token);
+                if (result) { 
+
+                    // dispatch(setTotalBlogs([...totalBlogs, result]));
+
+                    // reset();
+                    // navigate('/dashboard/blogs');
+                }
+            } catch (error) { 
+
+                console.log("Error Occured : ", error);
+            }
+        }
     }
+
+    const handleThumbnailChange = (e) => { 
+
+        const file = e.target.files[0];
+        setValue('thumbnail', file);
+    }
+
+    useEffect(() => {
+
+        register('tags', { required: true });
+        register('thumbnail', { required: true });
+
+    }, [register])
+
+    useEffect(() => {
+
+        setValue('tags', blogTags);
+
+    }, [blogTags, setValue]);
+    useEffect(() => {
+
+        const allCategories = async () => {
+
+            const result = await getAllCategories(token);
+            dispatch(setCategories(result));
+        }
+
+        allCategories();
+    }, [])
 
 
     return (
@@ -111,7 +177,7 @@ const BlogForm = () => {
                         onKeyDown={handleTagsChange}
                         placeholder="Enter tags"
                         className="py-2 px-2 mt-1 w-full bg-gray-900 border-b-[1px] border-gray-500 outline-none text-gray-400 rounded-md"
-                        {...register("tags", { required: true })}
+
                     />
                     {errors.tags && <span className="text-red-500 text-sm">Tags are required</span>}
                 </div>
@@ -123,22 +189,27 @@ const BlogForm = () => {
                         className="py-2 px-2 mt-1 w-full bg-gray-900 border-b-[1px] border-gray-500 outline-none text-gray-400 rounded-md"
                         {...register("category", { required: true })}
                     >
-                        <option value="">Select City</option>
-                        <option value="1">Option 1</option>
-                        <option value="2">Option 2</option>
-                        <option value="3">Option 3</option>
+                        <option value="">Select Category</option>
+                        {
+                            categories.map((category, index) => (
+
+                                <option key={index} value={category._id} >{category.name}</option>
+                            ))
+                        }
+
                     </select>
                     {errors.category && <span className="text-red-500 text-sm">Category is required</span>}
                 </div>
                 <div>
-                    <label htmlFor="blogThumbnail">Blog Thumbnail</label>
+                    <label htmlFor="thumbnail">Blog Thumbnail</label>
                     <input
                         type="file"
-                        name="blogThumbnail"
+                        name="thumbnail"
+                        onChange={handleThumbnailChange}
                         className="py-2 px-2 mt-1 w-full bg-gray-900 border-b-[1px] border-gray-500 outline-none text-gray-400 rounded-md"
-                        {...register("blogThumbnail", { required: true })}
+                    
                     />
-                    {errors.blogThumbnail && <span className="text-red-500 text-sm">Blog Thumbnail is required</span>}
+                    {errors.thumbnail && <span className="text-red-500 text-sm">Blog Thumbnail is required</span>}
                 </div>
                 <div className="flex justify-start">
                     <button

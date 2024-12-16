@@ -5,12 +5,25 @@ import userRoutes from './routes/auth.js';
 import blogRoutes from './routes/blogs.js'
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import fileUpload from 'express-fileupload';
+// import fileUpload from 'express-fileupload';
+import multer from 'multer';
 const app = express();
 
 dotenv.config();
 
 const PORT = process.env.PORT || 5000
+
+// var storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//       cb(null, './uploads')
+//     },
+//     filename: function (req, file, cb) {
+//       cb(null, file.originalname)
+//     }
+// })
+// var upload = multer({ storage: storage })
+
+// export default upload;
 
 app.get('/', (req, res) => { 
 
@@ -32,10 +45,10 @@ app.use(cors(
 app.use(express.json());
 app.use(cookieParser());
 
-app.use(fileUpload({
-    useTempFiles: true,
-    tempFileDir: "/tmp",
-}));
+// app.use(fileUpload({
+//     useTempFiles: true,
+//     tempFileDir: "/tmp",
+// }));
 
 app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/blog', blogRoutes);

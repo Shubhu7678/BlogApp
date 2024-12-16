@@ -1,11 +1,23 @@
-import react from 'react';
+import react, { useEffect } from 'react';
 import BlogForm from './BlogForm';
 import { BsCloudLightningRain } from "react-icons/bs";
+import { setEditBlog } from '../../../../slices/blogSlice';
+import { useDispatch,useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 
 const EditBlog = () => { 
 
+  const { editBlog } = useSelector((state) => state.blog);
+  const dispatch = useDispatch();
+  const { blogId } = useParams();
+  console.log(blogId);
 
+    useEffect(() => { 
+       
+      dispatch(setEditBlog(true));
+        
+    },[])
 
     return (
         <div className="bg-gray-900 h-[calc(100vh-64px)] overflow-y-auto w-full">
