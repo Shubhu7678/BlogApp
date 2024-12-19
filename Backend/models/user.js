@@ -35,7 +35,13 @@ const userSchema = new mongoose.Schema({
     },
     about: {
         type : String,
-    }
+    },
+    blogs: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Blog',
+        }
+    ],
 
 },
     {

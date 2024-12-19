@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { indianStates } from "../../../../data/StatesData";
 import { ImCancelCircle } from "react-icons/im";
 import { useForm } from 'react-hook-form';
@@ -12,12 +12,13 @@ import { useNavigate } from 'react-router-dom';
 
 const BlogForm = () => {
 
-
-    const { editBlog, totalBlogs } = useSelector((state) => state.blog);
+    const { editBlog, totalBlogs, blog } = useSelector((state) => state.blog);
     const { categories } = useSelector((state) => state.category);
     const { token } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const [blogTags, setBlogTags] = useState([]);
+    const [thumbnailPreview, setThumbnailPreview] = useState(null);
+    const BaseUrl = 'http://localhost:4000';
     const navigate = useNavigate();
 
     const handleTagsChange = (e) => {
@@ -42,12 +43,53 @@ const BlogForm = () => {
         setValue,
         getValues,
         reset,
-        formState: { errors, isSubmitSuccessful },
+        formState: { errors },
     } = useForm();
+
+
+    const isFormUpdated = () => {
+
+        const currentFormData = getValues();
+        const currentForm = currentFormData.thumbnail;
+        const oldForm = `${BaseUrl}/${blog.thumbnail}`;
+
+        if (currentForm !== oldForm) {
+
+            return true;
+        }
+        else {
+
+            return false;
+        }
+    }
 
     const onSubmit = async (data) => {
 
         if (editBlog) {
+
+            const resultForm = isFormUpdated();
+            console.log(resultForm);
+            if (resultForm) {
+
+                console.log("form updated");
+
+            } else {
+
+                console.log("same form");
+            }
+
+            const currentFormData = getValues();
+            console.log("CurrentForm ::", currentFormData.thumbnail);
+            console.log("OLd ::", `${BaseUrl}/${blog.thumbnail}`)
+            const currentForm = currentFormData.thumbnail;
+            const oldForm = `${BaseUrl}/${blog.thumbnail}`;
+            if (currentForm == oldForm) {
+
+                console.log("hellllooooo matched.....");
+            } else {
+
+                console.log("hello not matched");
+            }
 
 
         } else {
@@ -59,7 +101,6 @@ const BlogForm = () => {
             formData.append('tags', JSON.stringify(data.tags));
             formData.append('category', data.category);
             formData.append('thumbnail', data.thumbnail);
-            // console.log("data :: ", data.thumbnail);  
 
             try {
 
@@ -105,8 +146,23 @@ const BlogForm = () => {
         }
 
         allCategories();
-    }, [])
+    }, [dispatch, token])
 
+    useEffect(() => {
+
+        if (editBlog) {
+
+            setValue('blogTitle', blog?.blogTitle);
+            setValue('blogDescription', blog?.blogDescription);
+            setValue('city', blog?.city);
+            setValue('category', blog?.category?._id);
+            setBlogTags(blog?.tags);
+            const preImage = `${BaseUrl}/${blog.thumbnail}`
+            setThumbnailPreview(preImage);
+            setValue('thumbnail', preImage);
+
+        }
+    }, [editBlog, setValue, blog])
 
     return (
         <div className="bg-gray-800 rounded-md mt-8 text-gray-200 p-4">
@@ -156,11 +212,11 @@ const BlogForm = () => {
                 <div>
                     <label htmlFor="">Tags</label>
                     {
-                        blogTags.length > 0 && (
+                        blogTags?.length > 0 && (
 
                             <div className="flex mt-1 gap-1 flex-wrap">
                                 {
-                                    blogTags.map((tag, index) => (
+                                    blogTags?.map((tag, index) => (
                                         <div key={index} className="bg-yellow-600 px-2 py-2 rounded-md text-gray-950 flex items-center gap-1">
                                             <span className="text-sm">{tag}</span>
                                             <ImCancelCircle
@@ -204,6 +260,15 @@ const BlogForm = () => {
                 </div>
                 <div>
                     <label htmlFor="thumbnail">Blog Thumbnail</label>
+                    {thumbnailPreview && (
+                        <div className="mt-4">
+                            <img
+                                src={thumbnailPreview}
+                                alt="Blog Thumbnail"
+                                className="w-full h-full object-cover rounded-md"
+                            />
+                        </div>
+                    )}
                     <input
                         type="file"
                         name="thumbnail"
@@ -213,6 +278,7 @@ const BlogForm = () => {
                     />
                     {errors.thumbnail && <span className="text-red-500 text-sm">Blog Thumbnail is required</span>}
                 </div>
+
                 <div className="flex justify-start">
                     <button
                         type="submit"

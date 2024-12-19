@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { addCategoryData } from '../../../../services/operations/categoryApis';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { setCategories } from '../../../../slices/categorySlice';
 import { updateCategoryData } from '../../../../services/operations/categoryApis';
 import toast from 'react-hot-toast';
@@ -14,14 +14,13 @@ const CategoryForm = () => {
     const { categories, editCategory, category } = useSelector((state) => state.category);
     const dispatch = useDispatch();
 
-
     const {
         register,
         handleSubmit,
         setValue,
         getValues,
         reset,
-        formState: { errors, isSubmitSuccessful },
+        formState: { errors},
     } = useForm();
 
     const isFormUpdated = () => {
@@ -93,7 +92,7 @@ const CategoryForm = () => {
             reset();
         }
 
-    }, [editCategory, category, setValue])
+    }, [editCategory, category, setValue,reset])
 
     return (
         <div>

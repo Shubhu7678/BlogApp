@@ -1,28 +1,41 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
-import { IoMdAdd } from "react-icons/io";
+// import { IoMdAdd } from "react-icons/io";
 import { IoMdAddCircle } from "react-icons/io";
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllBlogs } from '../../../../services/operations/blogApi';
-import {setTotalBlogs} from '../../../../slices/blogSlice';
+import { setTotalBlogs } from '../../../../slices/blogSlice';
 
-const myBlogs = () => {
+const MyBlogs = () => {
 
     const { token } = useSelector((state) => state.auth);
+    const { totalBlogs } = useSelector((state) => state.blog);
     const dispatch = useDispatch();
 
-    useEffect(() => { 
-        
-        const getBlogsData = async() => { 
+    useEffect(() => {
+
+        const getBlogsData = async () => {
 
             const blogs = await getAllBlogs(token);
+            // console.log(blogs);
             dispatch(setTotalBlogs(blogs));
-
         }
 
         getBlogsData();
 
-    },[])
+    }, [dispatch, token])
+
+    const truncateDescription = (description) => { 
+
+        const words = description.split(' ');
+        const fiveWords = words.slice(0, 5).join(" ");
+        return words.length > 5 ? fiveWords + '...': fiveWords;
+    }
+
+    const deleteBlogData = () => { 
+
+        // TODO: Implement delete blog functionality
+    }
 
     return (
         <div className="bg-gray-900 h-[calc(100vh-64px)] overflow-x-auto w-full">
@@ -42,6 +55,7 @@ const myBlogs = () => {
                             {/* head */}
                             <thead>
                                 <tr className="text-white">
+
                                     <th></th>
                                     <th>Name</th>
                                     <th>Description</th>
@@ -49,26 +63,33 @@ const myBlogs = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th>1</th>
-                                    <td>title</td>
-                                    <td>data</td>
-                                    <td>
-                                        <div className="flex items-center gap-2">
-                                            <NavLink
-                                                to="/dashboard/edit-blog/1" 
-                                                className="w-fit px-3 py-2 bg-green-500 rounded-md text-white font-mono flex items-center gap-2"
-                                            >
-                                                <span>Edit</span>
-                                            </NavLink>
-                                            <NavLink
-                                                className="w-fit px-3 py-2 bg-orange-600 rounded-md text-gray-100 font-mono flex items-center gap-2"
-                                            >
-                                                <span>Delete</span>
-                                            </NavLink>
-                                        </div>
-                                    </td>
-                                </tr>
+                                {
+                                    totalBlogs && totalBlogs.map((blog, index) => (
+                                        <tr key={index}>
+                                            <th>{index + 1 }</th>
+                                            <td>{ blog.blogTitle }</td>
+                                            <td>{truncateDescription(blog.blogDescription)}</td>
+                                            <td>
+                                                <div className="flex items-center gap-2">
+                                                    <NavLink
+                                                        to={`/dashboard/edit-blog/${blog._id}`}
+                                                        className="w-fit px-3 py-2 bg-green-500 rounded-md text-white font-mono flex items-center gap-2"
+                                                    >
+                                                        <span>Edit</span>
+                                                    </NavLink>
+                                                    <NavLink
+                                                        onClick={() => deleteBlogData(blog?._id)}
+                                                        className="w-fit px-3 py-2 bg-orange-600 rounded-md text-gray-100 font-mono flex items-center gap-2"
+                                                    >
+                                                        <span>Delete</span>
+                                                    </NavLink>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                    ))
+                                }
+
                             </tbody>
                         </table>
                     </div>
@@ -80,4 +101,4 @@ const myBlogs = () => {
     )
 }
 
-export default myBlogs
+export default MyBlogs
