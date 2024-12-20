@@ -4,7 +4,7 @@ import upload from '../middlewares/multer.js';
 const router = express.Router();
 
 import { addCategory, getAllCategories, getCategoryById, updateCategory, deleteCategory } from '../controllers/category.js';
-import { addBlog,getAllBlogs,getBlog} from '../controllers/Blog.js';
+import { addBlog,getAllBlogs,getBlog,updateBlog} from '../controllers/Blog.js';
 import { auth } from '../middlewares/auth.js';
 
 // ==========================CATEGORY=========================================================
@@ -20,6 +20,7 @@ router.post('/deleteCategory', deleteCategory)
 router.post('/add-blog', auth, upload.single('thumbnail'), addBlog);
 router.get('/getAllBlogs', auth, getAllBlogs);
 router.get('/getBlog/:blogId', auth, getBlog);
+router.post('/updateBlog', auth, upload.single('thumbnail'), updateBlog);
 
 
 export default router;

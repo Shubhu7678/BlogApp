@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from "react-redux";
 import { setCategories } from "../../../../slices/categorySlice";
 import { getAllCategories } from "../../../../services/operations/categoryApis";
-import { addBlogData } from "../../../../services/operations/blogApi";
+import { addBlogData,updateCategoryData } from "../../../../services/operations/blogApi";
 import { setTotalBlogs } from '../../../../slices/blogSlice';
 import { useNavigate } from 'react-router-dom';
 
@@ -53,7 +53,10 @@ const BlogForm = () => {
         const currentForm = currentFormData.thumbnail;
         const oldForm = `${BaseUrl}/${blog.thumbnail}`;
 
-        if (currentForm !== oldForm) {
+        if (currentForm !== oldForm || currentFormData.blogTitle !== blog.blogTitle
+            || currentFormData.blogDescription !== blog.blogDescription ||
+            currentFormData.city !== blog.city || currentFormData.category !== blog.category._id
+            || JSON.stringify(currentFormData.tags) !== JSON.stringify(blog.tags)) {
 
             return true;
         }
@@ -68,29 +71,52 @@ const BlogForm = () => {
         if (editBlog) {
 
             const resultForm = isFormUpdated();
-            console.log(resultForm);
+
             if (resultForm) {
 
                 console.log("form updated");
+                // console.log(blog);
+                // console.log('data ::', data);
+                const formData = new FormData();
+                const currentFormData = getValues();
+                if (currentFormData.blogTitle !== blog.blogTitle) {
+                  
+                    formData.append('blogTitle', currentFormData.blogTitle);
+                }
+                if (currentFormData.blogDescription !== blog.blogDescription) {
+
+                    formData.append('blogDescription', currentFormData.blogDescription);
+                }
+                if (currentFormData.city !== blog.city) {
+
+                    formData.append('city', currentFormData.city);
+                }
+                if (currentFormData.category !== blog.category._id) {
+
+                    formData.append('category', currentFormData.category);
+                }
+                if (currentFormData.tags.toString() !== blog.tags.toString()) {
+
+                    formData.append('tags', JSON.stringify(currentFormData.tags));
+                }
+                const currentForm = currentFormData.thumbnail;
+                const oldForm = `${BaseUrl}/${blog.thumbnail}`;
+                if (currentForm !== oldForm) {
+
+                    formData.append('thumbnail', currentFormData.thumbnail);
+                }
+
+                formData.append('blogId', blog._id);
+                const result = await updateCategoryData(formData, token);
+                if (result) { 
+
+                    console.log("Updated data ::",result);
+                }
 
             } else {
 
                 console.log("same form");
             }
-
-            const currentFormData = getValues();
-            console.log("CurrentForm ::", currentFormData.thumbnail);
-            console.log("OLd ::", `${BaseUrl}/${blog.thumbnail}`)
-            const currentForm = currentFormData.thumbnail;
-            const oldForm = `${BaseUrl}/${blog.thumbnail}`;
-            if (currentForm == oldForm) {
-
-                console.log("hellllooooo matched.....");
-            } else {
-
-                console.log("hello not matched");
-            }
-
 
         } else {
 
