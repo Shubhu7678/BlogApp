@@ -110,7 +110,7 @@ export const getBlog = async (req, res) => {
         )
             .populate('author')
             .populate('category');
-            
+
         if (!blogDetails) {
 
             return res.status(400).json({
@@ -138,14 +138,14 @@ export const getBlog = async (req, res) => {
     }
 }
 
-export const updateBlog = async (req, res) => { 
+export const updateBlog = async (req, res) => {
 
     try {
-        
+
         const { blogId, blogTitle, blogDescription, city, category, tags } = req.body;
         const thumbnail = req.file ? req.file.path : null;
-        
-        if (!blogId) { 
+
+        if (!blogId) {
 
             return res.status(400).json({
 
@@ -156,7 +156,7 @@ export const updateBlog = async (req, res) => {
 
         const blogData = await Blog.findById(blogId);
 
-        if (!blogData) { 
+        if (!blogData) {
 
             return res.status(401).json({
 
@@ -165,41 +165,41 @@ export const updateBlog = async (req, res) => {
             })
         }
         // console.log(blogName);
-        if (blogTitle !== undefined) { 
+        if (blogTitle !== undefined) {
 
             blogData.blogTitle = blogTitle;
         }
-        if (blogDescription !== undefined) { 
+        if (blogDescription !== undefined) {
 
             blogData.blogDescription = blogDescription;
         }
-        if (city !== undefined) { 
+        if (city !== undefined) {
 
             blogData.city = city;
         }
-        if (category !== undefined) { 
+        if (category !== undefined) {
 
             blogData.category = category;
         }
-        if (tags !== undefined) { 
+        if (tags !== undefined) {
 
             blogData.tags = JSON.parse(tags);
         }
-        if (thumbnail !== null) { 
+        if (thumbnail !== null) {
 
             blogData.thumbnail = thumbnail;
         }
 
-      const updatedBlog =  await blogData.save();
+        const updatedBlog = await blogData.save();
 
-       return res.status(200).json({
+        return res.status(200).json({
 
             success: true,
-           message: 'Blog Updated Successfully...',
-           data: updatedBlog,
+            message: 'Blog Updated Successfully...',
+            data: updatedBlog,
         });
 
-    } catch (error) { 
+    } catch (error) {
 
         return res.status(500).json({
 
@@ -208,4 +208,50 @@ export const updateBlog = async (req, res) => {
             error: error.message,
         })
     }
+}
+
+export const deleteBlog = async (req, res) => {
+
+    try {
+
+        const blogId = req.params.blogId;
+
+        if (!blogId) {
+
+            return res.status(400).json({
+
+                success: false,
+                message: 'Blog Id is required',
+            })
+        }
+
+        const blogDeleted = await Blog.findByIdAndDelete(blogId);
+        
+        if (!blogDeleted) {
+
+            return res.status(400).json({
+
+                success: false,
+                message: 'Blog not found',
+            })
+        }
+
+        return res.status(200).json({
+
+            success: true,
+            message: 'Blog deleted successfully',
+            data : blogDeleted
+        })
+
+    } catch (error) {
+
+        return res.status(500).json({
+
+            success: false,
+            message: 'Internal Server Error',
+        })
+
+    }
+
+
 }

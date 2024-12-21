@@ -1,4 +1,3 @@
-import React from 'react'
 import { NavLink } from 'react-router-dom'
 const ProfileAbout = () => {
     return (
@@ -9,7 +8,7 @@ const ProfileAbout = () => {
                     <p className="text-sm text-gray-400">Write Something About Yourself</p>
                 </div>
                 <div>
-                    <NavLink to="/dashboard/setting" className="bg-yellow-500 px-5 py-2 rounded-md hover:bg-yellow-600 duration-300 text-gray-900 text-base font-semibold" >Edit</NavLink>
+                    <NavLink to="/dashboard/setting" className="bg-yellow-700 text-white px-4 py-2 rounded-sm hover:bg-yellow-800 duration-300 text-base font-mono">Edit</NavLink>
                 </div>
              </div>
 

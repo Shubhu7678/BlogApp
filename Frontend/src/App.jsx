@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import Navbar from './components/common/Navbar'
@@ -13,12 +12,12 @@ import AddBlog from './components/core/Dashboard/AddBlog/AddBlog'
 import Categories from './components/core/Dashboard/Category/Categories'
 import AddCategory from './components/core/Dashboard/Category/AddCategory'
 import UpdateCategory from './components/core/Dashboard/Category/UpdateCategory';
-import MyBlogs from './components/core/Dashboard/MyBlogs/myBlogs' 
+import MyBlogs from './components/core/Dashboard/MyBlogs/myBlogs'
 import EditBlog from './components/core/Dashboard/AddBlog/EditBlog'
+import Setting from './components/core/Dashboard/Setting/Setting'
 
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
@@ -37,7 +36,7 @@ function App() {
             </OpenRoute>
           } />
           <Route element={
-              <Dashboard />
+            <Dashboard />
           }>
             <Route path="/dashboard/my-profile" element={
               <PrivateRoute>
@@ -46,7 +45,7 @@ function App() {
             } />
             <Route path="/dashboard/my-blogs" element={
               <PrivateRoute>
-                 <MyBlogs />
+                <MyBlogs />
               </PrivateRoute>
             } />
             <Route path="/dashboard/add-blog" element={
@@ -74,7 +73,12 @@ function App() {
                 <UpdateCategory />
               </PrivateRoute>
             } />
-            
+            <Route path='/dashboard/setting' element={
+              <PrivateRoute>
+                <Setting />
+              </PrivateRoute>
+            } />
+
           </Route>
           <Route path="*" element={<ErrorPage />} />
         </Routes>

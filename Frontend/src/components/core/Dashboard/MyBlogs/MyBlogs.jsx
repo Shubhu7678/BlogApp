@@ -5,6 +5,8 @@ import { IoMdAddCircle } from "react-icons/io";
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllBlogs } from '../../../../services/operations/blogApi';
 import { setTotalBlogs } from '../../../../slices/blogSlice';
+import { toast } from 'react-hot-toast';
+import { deleteBlogDetails } from '../../../../services/operations/blogApi';
 
 const MyBlogs = () => {
 
@@ -17,7 +19,6 @@ const MyBlogs = () => {
         const getBlogsData = async () => {
 
             const blogs = await getAllBlogs(token);
-            // console.log(blogs);
             dispatch(setTotalBlogs(blogs));
         }
 
@@ -32,9 +33,24 @@ const MyBlogs = () => {
         return words.length > 5 ? fiveWords + '...': fiveWords;
     }
 
-    const deleteBlogData = () => { 
+    const deleteBlogData = async(blogId) => { 
+         
+        try {
+              
+            const result = await deleteBlogDetails(blogId, token);
 
-        // TODO: Implement delete blog functionality
+            if (result) { 
+
+                dispatch(setTotalBlogs(totalBlogs.filter(blog => blog._id !== result._id)));
+                toast.success('Blog deleted successfully');
+            }
+
+        } catch (error) { 
+            
+            toast.error('Error deleting blog');
+            console.error('Error deleting blog : ', error);
+        }
+         
     }
 
     return (

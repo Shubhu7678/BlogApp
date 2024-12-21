@@ -5,9 +5,10 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from "react-redux";
 import { setCategories } from "../../../../slices/categorySlice";
 import { getAllCategories } from "../../../../services/operations/categoryApis";
-import { addBlogData,updateCategoryData } from "../../../../services/operations/blogApi";
+import { addBlogData, updateCategoryData } from "../../../../services/operations/blogApi";
 import { setTotalBlogs } from '../../../../slices/blogSlice';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
 
 const BlogForm = () => {
@@ -74,13 +75,12 @@ const BlogForm = () => {
 
             if (resultForm) {
 
-                console.log("form updated");
                 // console.log(blog);
                 // console.log('data ::', data);
                 const formData = new FormData();
                 const currentFormData = getValues();
                 if (currentFormData.blogTitle !== blog.blogTitle) {
-                  
+
                     formData.append('blogTitle', currentFormData.blogTitle);
                 }
                 if (currentFormData.blogDescription !== blog.blogDescription) {
@@ -108,14 +108,17 @@ const BlogForm = () => {
 
                 formData.append('blogId', blog._id);
                 const result = await updateCategoryData(formData, token);
-                if (result) { 
+                if (result) {
 
-                    console.log("Updated data ::",result);
+                    dispatch(setTotalBlogs(totalBlogs.map((blog) => blog._id === result._id ? result : blog)))
+                    reset();
+                    setBlogTags([]);
+                    navigate('/dashboard/my-blogs');
                 }
 
             } else {
 
-                console.log("same form");
+                toast.error('Form Already Updated !');
             }
 
         } else {

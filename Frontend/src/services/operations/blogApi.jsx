@@ -2,7 +2,7 @@ import { apiConnector } from '../apiconnector';
 import { blogEndPoints } from '../apis';
 import { toast } from 'react-hot-toast'
 
-const { CREATE_BLOG_API, GET_ALL_BLOGS_API,GET_BLOG_BY_ID_API,UPDATE_BLOG_API } = blogEndPoints;
+const { CREATE_BLOG_API, GET_ALL_BLOGS_API,GET_BLOG_BY_ID_API,UPDATE_BLOG_API,DELETE_BLOG_API } = blogEndPoints;
 
 export const addBlogData = async (formData, token) => {
 
@@ -114,6 +114,35 @@ export const updateCategoryData = async(formData, token) => {
         }
 
         result = response.data.data;
+    } catch (error) { 
+
+        console.log("Error occured ::", error);
+        toast.error(error.response.data.message);
+    }
+
+    toast.dismiss(toastId);
+    return result;
+}
+
+export const deleteBlogDetails = async (blogId, token)=>{ 
+
+    const toastId = toast.loading('Loading...');
+    let result = [];
+    try {
+
+        const response = await apiConnector('DELETE', `${DELETE_BLOG_API}/${blogId}`, {},
+            {
+                'Authorization': `Bearer ${token}`
+            }
+        );
+
+        if (!response.data.success) { 
+
+            throw new Error(response.data.message);
+        }
+
+        result = response.data.data;
+
     } catch (error) { 
 
         console.log("Error occured ::", error);
