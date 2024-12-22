@@ -69,14 +69,18 @@ export const addBlog = async (req, res) => {
 export const getAllBlogs = async (req, res) => {
 
     try {
-
-        const blogs = await Blog.find({});
+        
+        const userId = req.user.id;
+        // const blogs = await Blog.find({}); 
+        const user = await User.findById(
+            userId
+        ).populate('blogs');
 
         res.status(200).json({
 
             success: true,
             message: 'Blogs fetched successfully',
-            data: blogs
+            data: user.blogs
         })
 
     } catch (error) {

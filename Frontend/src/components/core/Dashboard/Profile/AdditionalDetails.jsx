@@ -22,25 +22,25 @@ const AdditionalDetails = () => {
                         </div>
                         <div>
                             <h3 className="text-gray-300">Date of Birth</h3>
-                            <p className="text-sm text-gray-400">12/01/2000</p>
+                            <p className="text-sm text-gray-400">{ user?.additionalDetails?.dateOfBirth ?? "undefined" }</p>
                         </div>
                         <div>
                             <h3 className="text-gray-300">Gender</h3>
-                            <p className="text-sm text-gray-400">Male</p>
+                            <p className="text-sm text-gray-400">{ user?.additionalDetails?.gender ?? "undefined" }</p>
                         </div>
                     </div>
                     <div className="w-[50%] flex flex-col gap-2">
                         <div>
                             <h3 className="text-gray-300">Last Name</h3>
-                            <p className="text-sm text-gray-400">Aswal</p>
+                            <p className="text-sm text-gray-400">{user?.lastName}</p>
                         </div>
                         <div>
                             <h3 className="text-gray-300">Email</h3>
-                            <p className="text-sm text-gray-400">shubhamaswal7678</p>
+                            <p className="text-sm text-gray-400">{ user?.email }</p>
                         </div>
                         <div>
                             <h3 className="text-gray-300">Contact</h3>
-                            <p className="text-sm text-gray-400">7678162102</p>
+                            <p className="text-sm text-gray-400">{ user?.additionalDetails?.contact ?? "undefined" }</p>
                         </div>
                     </div>
 

@@ -10,31 +10,28 @@ const userSchema = new mongoose.Schema({
     lastName: {
 
         type: String,
-        required : true,
+        required: true,
     },
     email: {
 
         type: String,
         unique: true,
         lowercase: true,
-        required : true,
+        required: true,
     },
     password: {
 
-        type : String,
-        required : true
+        type: String,
+        required: true
     },
     userImage: {
 
         type: String,
-        required : true
+        required: true
     },
-    phone: {
-
-        type: String,
-    },
-    about: {
-        type : String,
+    additionDetails: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Profile',
     },
     blogs: [
         {

@@ -47,10 +47,10 @@ export const login = async (data, navigate, dispatch) => {
         console.log(response);
 
            localStorage.setItem('token', JSON.stringify(response.data.token));
-        localStorage.setItem('user', JSON.stringify(response.data.data));
+        localStorage.setItem('user', JSON.stringify(response.data.userExist));
 
         dispatch(setToken(response.data.token));
-        dispatch(setUser(response.data.data));
+        dispatch(setUser(response.data.userExist));
         navigate('/dashboard/my-profile');
 
     } catch (error) { 

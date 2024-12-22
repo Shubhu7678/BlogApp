@@ -2,16 +2,17 @@ import User from '../models/user.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import Profile from '../models/Profile.js';
 
 dotenv.config();
 
-export const signup = async(req, res) => {
+export const signup = async (req, res) => {
 
     try {
 
         const { firstName, lastName, email, password, confirmPassword } = req.body;
-        
-        if (!firstName || !lastName || !email || !password || !confirmPassword) { 
+
+        if (!firstName || !lastName || !email || !password || !confirmPassword) {
 
             return res.status(400).json({
 
@@ -20,7 +21,7 @@ export const signup = async(req, res) => {
             });
         }
 
-        if (password !== confirmPassword) { 
+        if (password !== confirmPassword) {
 
             return res.status(400).json({
 
@@ -31,7 +32,7 @@ export const signup = async(req, res) => {
 
         const existingUser = await User.findOne({ email });
 
-        if (existingUser) { 
+        if (existingUser) {
 
             return res.status(400).json({
 
@@ -39,6 +40,13 @@ export const signup = async(req, res) => {
                 message: "User already exists"
             })
         }
+
+        const otherUserDetails = await Profile.create({
+            gender: null,
+            dateOfBirth: null,
+            about: null,
+            contact: null,
+        });
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -50,11 +58,12 @@ export const signup = async(req, res) => {
                 lastName: lastName,
                 email: email,
                 password: hashedPassword,
-                userImage : userImage,
+                userImage: userImage,
+                additionDetails: otherUserDetails._id,
             }
         )
 
-        if (!user) { 
+        if (!user) {
 
             return res.status(400).json({
 
@@ -69,7 +78,7 @@ export const signup = async(req, res) => {
             message: "User created successfully"
         })
 
-    } catch (error) { 
+    } catch (error) {
 
         return res.status(500).json({
 
@@ -81,13 +90,13 @@ export const signup = async(req, res) => {
     }
 }
 
-export const login = async (req, res) => { 
+export const login = async (req, res) => {
 
     try {
 
         const { email, password } = req.body;
-        
-        if (!email || !password) { 
+
+        if (!email || !password) {
 
             return res.status(400).json({
 
@@ -96,25 +105,28 @@ export const login = async (req, res) => {
             })
         }
 
-        const userExist = await User.findOne({ email });
+        const userExist = await User.findOne(
+            { email }
+        ).populate('additionDetails');
 
-        if (!userExist) { 
+
+
+        if (!userExist) {
 
             return res.status(400).json({
 
                 success: false,
-                message : "User does not exist",
+                message: "User does not exist",
             })
         }
 
         const isMatch = await bcrypt.compare(password, userExist.password);
-
-        if (!isMatch) { 
+        if (!isMatch) {
 
             return res.status(400).json({
 
                 success: false,
-                message : "Invalid credentials",
+                message: "Invalid credentials",
             })
         }
 
@@ -123,30 +135,28 @@ export const login = async (req, res) => {
             id: userExist._id,
             email: userExist.email,
             firstName: userExist.firstName,
-            lastName : userExist.lastName,
-            userImage : userExist.userImage,
+            lastName: userExist.lastName,
+            userImage: userExist.userImage,
         }
 
-        // console.log("JWT_SECRET:", process.env.JWT_SECRET);
-
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '8h' });
-        
+
         const option = {
 
             expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
             httpOnly: true,
         }
-
+        userExist.password = undefined;
         res.cookie('token', token, option).status(200).json({
 
             success: true,
             message: "User logged in successfully",
-            data : payload,
+            data: payload,
+            userExist: userExist,
             token
         })
-        
 
-    } catch (error) { 
+    } catch (error) {
 
         return res.status(500).json({
 
@@ -157,19 +167,18 @@ export const login = async (req, res) => {
     }
 }
 
-export const logout = async (req, res) => { 
+export const logout = async (req, res) => {
 
     try {
-          
+
         res.cookie('token', '', { expires: new Date(Date.now()), httpOnly: true });
-       return  res.status(200).json({
+        return res.status(200).json({
 
             success: true,
             message: "User logged out successfully"
-        })
+        });
 
-
-    } catch (error) { 
+    } catch (error) {
 
         console.log("Error occured : ", error);
         return res.status(500).json({
