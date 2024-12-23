@@ -5,7 +5,9 @@ import userRoutes from './routes/auth.js';
 import blogRoutes from './routes/blogs.js'
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import path from 'path';
 // import fileUpload from 'express-fileupload';
+import { fileURLToPath } from 'url';
 import multer from 'multer';
 const app = express();
 
@@ -13,17 +15,6 @@ dotenv.config();
 
 const PORT = process.env.PORT || 5000
 
-// var storage = multer.diskStorage({
-//     destination: function (req, file, cb) {
-//       cb(null, './uploads')
-//     },
-//     filename: function (req, file, cb) {
-//       cb(null, file.originalname)
-//     }
-// })
-// var upload = multer({ storage: storage })
-
-// export default upload;
 
 app.get('/', (req, res) => { 
 
@@ -44,7 +35,16 @@ app.use(cors(
 ));
 app.use(express.json());
 app.use(cookieParser());
-app.use('/uploads', express.static('uploads'));
+// app.use('/uploads', express.static('uploads'));
+// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Serve static files
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+
 
 
 // app.use(fileUpload({

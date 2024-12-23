@@ -28,3 +28,8 @@ export const blogEndPoints = {
     DELETE_BLOG_API: BASE_URL + '/api/v1/blog/deleteBlog',
 }
 
+export const profileEndPoints = {
+
+    UPDATE_PROFILE_IMAGE_API : BASE_URL + '/api/v1/blog/updateProfileImage',
+}
+
