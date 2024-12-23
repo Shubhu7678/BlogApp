@@ -1,14 +1,14 @@
 import User from '../models/user.js';
 
-export const updateProfileImage = async (req, res) => { 
+export const updateProfileImage = async (req, res) => {
 
     try {
-         
+
         const userId = req.user.id;
         const profileImage = req.file ? req.file.path : null;
         // console.log("Profile Image ::", profileImage);
 
-        if (!profileImage) { 
+        if (!profileImage) {
 
             return res.status(400).json({
 
@@ -29,7 +29,7 @@ export const updateProfileImage = async (req, res) => {
             }
         )
 
-        if (!updatedUser) { 
+        if (!updatedUser) {
 
             return res.status(400).json({
 
@@ -45,7 +45,7 @@ export const updateProfileImage = async (req, res) => {
             data: updatedUser,
         })
 
-    } catch (error) { 
+    } catch (error) {
 
         return res.status(500).json({
 
