@@ -30,6 +30,7 @@ export const blogEndPoints = {
 
 export const profileEndPoints = {
 
-    UPDATE_PROFILE_IMAGE_API : BASE_URL + '/api/v1/blog/updateProfileImage',
+    UPDATE_PROFILE_IMAGE_API: BASE_URL + '/api/v1/blog/updateProfileImage',
+    UPDATE_PROFILE_ABOUT_API: BASE_URL + '/api/v1/blog/updateProfileAbout',
 }
 

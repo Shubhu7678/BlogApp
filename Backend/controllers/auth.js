@@ -59,7 +59,7 @@ export const signup = async (req, res) => {
                 email: email,
                 password: hashedPassword,
                 userImage: userImage,
-                additionDetails: otherUserDetails._id,
+                additionalDetails: otherUserDetails._id,
             }
         )
 
