@@ -2,26 +2,26 @@ import { apiConnector } from "../apiconnector";
 import { authEndPoints } from "../apis";
 import { toast } from "react-hot-toast";
 import { setToken } from "../../slices/authSlice";
-import {setUser } from '../../slices/profileSlice'
+import { setUser } from '../../slices/profileSlice'
 
-const { SIGNUP_API,LOGIN_API,LOGOUT_API } = authEndPoints;
+const { SIGNUP_API, LOGIN_API, LOGOUT_API } = authEndPoints;
 
-export const signup = async(data,navigate) => { 
+export const signup = async (data, navigate) => {
 
     try {
 
-        const response = await apiConnector('POST', SIGNUP_API, data );
-        
-        if (!response.data.success) { 
+        const response = await apiConnector('POST', SIGNUP_API, data);
+
+        if (!response.data.success) {
 
             throw new Error(response.data.message);
         }
-        
+
         toast.success(response.data.message);
         navigate('/login');
         // console.log(response);
 
-    } catch (error) { 
+    } catch (error) {
 
         console.log("Signup Error Occured : ", error);
         toast.error(error.message);
@@ -34,26 +34,21 @@ export const login = async (data, navigate, dispatch) => {
     const toastId = toast.loading('Loading...');
     try {
 
-        console.log(LOGIN_API);
-
         const response = await apiConnector('POST', LOGIN_API, data);
 
-        if (!response.data.success) { 
+        if (!response.data.success) {
 
             throw new Error(response.data.message);
         }
 
         toast.success(response.data.message);
-        console.log(response);
-
-           localStorage.setItem('token', JSON.stringify(response.data.token));
+        localStorage.setItem('token', JSON.stringify(response.data.token));
         localStorage.setItem('user', JSON.stringify(response.data.userExist));
-
         dispatch(setToken(response.data.token));
         dispatch(setUser(response.data.userExist));
         navigate('/dashboard/my-profile');
 
-    } catch (error) { 
+    } catch (error) {
 
         console.log("Login Error Occured : ", error);
         toast.error(error.response.data.message);
@@ -61,15 +56,15 @@ export const login = async (data, navigate, dispatch) => {
 
     toast.dismiss(toastId);
 }
- 
-export const logout = async(navigate,dispatch) => { 
+
+export const logout = async (navigate, dispatch) => {
 
     const toastId = toast.loading('Loading...');
     try {
 
         const response = await apiConnector("POST", LOGOUT_API, {});
 
-        if (!response.data.success) { 
+        if (!response.data.success) {
 
             throw new Error(response.data.message);
         }
@@ -82,7 +77,7 @@ export const logout = async(navigate,dispatch) => {
         toast.dismiss(toastId);
         navigate('/login');
 
-    } catch (error) { 
+    } catch (error) {
 
         console.log("Logout Error Occured : ", error);
         toast.error(error.response.data.message);

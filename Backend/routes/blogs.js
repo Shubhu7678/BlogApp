@@ -5,7 +5,7 @@ const router = express.Router();
 
 import { addCategory, getAllCategories, getCategoryById, updateCategory, deleteCategory } from '../controllers/category.js';
 import { addBlog, getAllBlogs, getBlog, updateBlog, deleteBlog } from '../controllers/Blog.js';
-import { updateProfileImage } from '../controllers/profile.js';
+import { updateProfileImage,updateProfileAbout } from '../controllers/profile.js';
 import { auth } from '../middlewares/auth.js';
 
 // ==========================CATEGORY=========================================================
@@ -27,6 +27,6 @@ router.delete('/deleteBlog/:blogId', auth, deleteBlog);
 // ==================================PROFILE=======================================================
 
 router.post('/updateProfileImage',auth,upload.single('userImage'),updateProfileImage);
-
+router.post('/updateProfileAbout', auth, updateProfileAbout);
 
 export default router;

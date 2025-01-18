@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { updateProfileAbout } from '../../../../services/operations/profileApis';
+import { setUser } from '../../../../slices/profileSlice';
 
 const ProfileAbout = () => {
 
@@ -9,6 +10,7 @@ const ProfileAbout = () => {
     const { user } = useSelector((state) => state.profile);
     console.log(user);
     const { token } = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
 
     const { register, setValue,getValues, handleSubmit } = useForm();
     
@@ -38,24 +40,28 @@ const ProfileAbout = () => {
         // Update profile information   
         if (formChanged()) { 
 
-            const formData = new FormData();
+            const formData = {};
             if (user?.firstName !== data.firstName) { 
-                formData.append('firstName', data.firstName);
+                formData.firstName = data.firstName;
             }
             if (user?.lastName !== data.lastName) { 
-                formData.append('lastName', data.lastName);
+                formData.lastName = data.lastName;
             }
             if (user?.additionalDetails?.dateOfBirth !== data.dateOfBirth) { 
-                formData.append('dateOfBirth', data.dateOfBirth);
+                
+                formData.dateOfBirth = data.dateOfBirth;
             }
             if (user?.additionalDetails?.gender !== data.gender) { 
-                formData.append('gender', data.gender);
+                
+                formData.gender = data.gender;
             }
             if (user?.additionalDetails?.contact !== data.contact) { 
-                formData.append('contact', data.contact);
+        
+                formData.contact = data.contact;
             }
             if (user?.additionalDetails?.about !== data.about) { 
-                formData.append('about', data.about);
+            
+                formData.about = data.about;
             }
             
             try {
@@ -63,7 +69,8 @@ const ProfileAbout = () => {
                 const result = await updateProfileAbout(formData, token);
                 if (result) { 
 
-                    console.log(result);
+                    // console.log(result);
+                    dispatch(setUser(result));
                 }
 
             } catch (error) { 

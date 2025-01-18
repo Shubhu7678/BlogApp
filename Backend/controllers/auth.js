@@ -107,7 +107,7 @@ export const login = async (req, res) => {
 
         const userExist = await User.findOne(
             { email }
-        ).populate('additionDetails');
+        ).populate('additionalDetails');
 
 
 

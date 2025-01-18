@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import SignUpImage from '../assets/Signup.jpeg'
+
 import { NavLink } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { login } from '../services/operations/authApis'
@@ -11,24 +10,22 @@ const Login = () => {
 
     const { register,
         handleSubmit,
-        reset,
-        setValue,
-        getValues,
-        formState: { errors, isSubmitSuccessful },
+        formState: { errors },
     } = useForm();
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const [loading, setLoading] = useState(false);
+    const onSubmit = async (data) => {
 
-    const onSubmit = (data) => {
+        try {
 
-        // login(data,navigate,dispatch);
-        login(data,navigate,dispatch);
-        console.log(data);
-        // reset();
+           await login(data, navigate, dispatch);
 
+        } catch (error) { 
+
+            console.log("Login Error Occured : ", error);
+        }
     }
     return (
         <div className="bg-gray-900">
@@ -50,7 +47,7 @@ const Login = () => {
                                                     boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
                                                 }}
                                                 className="input input-bordered w-full bg-gray-700" placeholder="Email"
-                                            {...register('email', { required: true })}
+                                                {...register('email', { required: true })}
                                             />
                                             {errors.email && <span className="text-red-500 text-sm pl-2 ">Email is required**</span>}
                                         </div>
@@ -63,7 +60,7 @@ const Login = () => {
                                                     boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
                                                 }}
                                                 className="input input-bordered w-full bg-gray-700" placeholder="Password"
-                                            {...register('password', { required: true })}
+                                                {...register('password', { required: true })}
                                             />
                                             {errors.password && <span className="text-red-500 text-sm pl-2">Password is required**</span>}
                                         </div>
@@ -71,7 +68,7 @@ const Login = () => {
                                     </form>
                                 </div>
                                 <div className="text-end">
-                                <p>Don't have an account? <NavLink to="/signup" className="text-yellow-500 cursor-pointer underline">Register</NavLink> </p>
+                                    <p>Do not have an account? <NavLink to="/signup" className="text-yellow-500 cursor-pointer underline">Register</NavLink> </p>
                                 </div>
                             </div>
                         </div>

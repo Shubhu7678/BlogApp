@@ -1,4 +1,5 @@
 import User from '../models/user.js';
+import Profile from '../models/Profile.js';
 
 export const updateProfileImage = async (req, res) => {
 
@@ -53,5 +54,77 @@ export const updateProfileImage = async (req, res) => {
             message: 'Internal Server Error',
             error: error.message,
         })
+    }
+}
+
+export const updateProfileAbout = async (req, res) => { 
+
+    try { 
+        
+        const userId = req.user.id;
+
+        const { firstName, lastName, dateOfBirth, gender, about, contact } = req.body;
+        
+        
+        const userExist = await User.findById(userId);
+
+        if(!userExist) {
+
+            return res.status(400).json({
+
+                success: false,
+                message: 'User does not exist',
+            })
+        }   
+
+        const profileExist = await Profile.findById(userExist.additionalDetails);
+
+        if (firstName) { 
+
+            userExist.firstName = firstName;
+        }
+        if (lastName) { 
+
+            userExist.lastName = lastName;
+        }
+        if (dateOfBirth) { 
+
+             profileExist.dateOfBirth = dateOfBirth;
+        }
+        if (gender) {
+
+            profileExist.gender = gender;
+        }
+        if (about) {
+            
+            profileExist.about = about;
+        }
+        if (contact) {
+
+            profileExist.contact = contact;
+        }
+
+        await userExist.save();
+        await profileExist.save();
+
+        const userUpdatedData = await User.findById(userId).populate('additionalDetails');
+
+        return res.status(200).json({
+
+            success: true,
+            message: 'Profile updated successfully',
+            data : userUpdatedData,
+        });
+        
+
+    } catch (error) {
+        
+        return res.status(500).json({
+
+            success: false,
+            message: 'Internal Server Error',
+            error: error.message
+        })
+
     }
 }
