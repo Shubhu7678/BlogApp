@@ -3,13 +3,15 @@ import { MdOutlineChat } from "react-icons/md";
 import { NavLink } from 'react-router-dom';
 import { FaArrowRightLong } from "react-icons/fa6";
 
-const CardBlog = () => {
+const CardBlog = ({ blog }) => {
+    console.log("blog : ", blog);
+    const BASE_URL = import.meta.env.VITE_BASE_URL;
     return (
         <>
-            <div className="card glass w-72">
+            <div className="card glass w-full">
                 <figure>
                     <img
-                        src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                        src={`${BASE_URL}/${blog?.thumbnail}`}
                         alt="car!" />
                 </figure>
                 <div className="card-body">

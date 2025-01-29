@@ -1,8 +1,15 @@
 import { apiConnector } from '../apiconnector';
 import { blogEndPoints } from '../apis';
 import { toast } from 'react-hot-toast'
+import axios from 'axios';
 
-const { CREATE_BLOG_API, GET_ALL_BLOGS_API,GET_BLOG_BY_ID_API,UPDATE_BLOG_API,DELETE_BLOG_API } = blogEndPoints;
+const { CREATE_BLOG_API,
+    GET_ALL_BLOGS_API,
+    GET_BLOG_BY_ID_API,
+    UPDATE_BLOG_API,
+    DELETE_BLOG_API,
+    GET_ALL_BLOGS_FOR_HOME_PAGE
+} = blogEndPoints;
 
 export const addBlogData = async (formData, token) => {
 
@@ -149,6 +156,30 @@ export const deleteBlogDetails = async (blogId, token)=>{
         toast.error(error.response.data.message);
     }
 
+    toast.dismiss(toastId);
+    return result;
+}
+
+export const getAllBlogsForHomePage = async () => {
+
+    let result = [];
+    const toastId = toast.loading('Loading...');
+    try {
+
+        const response = await axios.get(GET_ALL_BLOGS_FOR_HOME_PAGE);
+
+        if (!response.data.success) {
+
+            throw new Error(response.data.message);
+        }
+
+        result = response.data.data;
+
+    } catch (error) {
+
+        console.log("Get All Blogs Error Occured : ", error);
+        toast.error(error.response.data.message);
+    }
     toast.dismiss(toastId);
     return result;
 }

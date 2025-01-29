@@ -26,6 +26,7 @@ export const blogEndPoints = {
     GET_BLOG_BY_ID_API: BASE_URL + '/api/v1/blog/getBlog',
     UPDATE_BLOG_API: BASE_URL + '/api/v1/blog/updateBlog',
     DELETE_BLOG_API: BASE_URL + '/api/v1/blog/deleteBlog',
+    GET_ALL_BLOGS_FOR_HOME_PAGE: BASE_URL + '/api/v1/blog/getAllBlogsForHomePage',
 }
 
 export const profileEndPoints = {

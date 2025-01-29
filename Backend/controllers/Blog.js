@@ -259,3 +259,27 @@ export const deleteBlog = async (req, res) => {
 
 
 }
+
+export const getAllBlogsForHomePage = async (req, res) => {
+    
+    try {
+
+        const allBlogs = await Blog.find({}).populate('author').populate('category').populate('likes').populate('comments');
+
+        return res.status(200).json({
+
+            success: true,
+            message: 'Blogs fetched successfully',
+            data: allBlogs
+        })
+
+    } catch (error) { 
+
+        return res.status(500).json({
+
+            success: false,
+            message: "Internal Server Error",
+            error : error.message,
+        })
+    }
+}
