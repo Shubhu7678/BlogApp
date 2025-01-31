@@ -264,7 +264,12 @@ export const getAllBlogsForHomePage = async (req, res) => {
     
     try {
 
-        const allBlogs = await Blog.find({}).populate('author').populate('category').populate('likes').populate('comments');
+        const allBlogs = await Blog.find({
+
+        }).populate('author')
+            .populate('category')
+            .populate('likes')
+            // .populate('comments');
 
         return res.status(200).json({
 

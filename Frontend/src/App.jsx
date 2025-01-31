@@ -15,6 +15,7 @@ import UpdateCategory from './components/core/Dashboard/Category/UpdateCategory'
 import MyBlogs from './components/core/Dashboard/MyBlogs/myBlogs'
 import EditBlog from './components/core/Dashboard/AddBlog/EditBlog'
 import Setting from './components/core/Dashboard/Setting/Setting'
+import Blog from './components/core/BlogsPage/Blog'
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path="/blog/:blogId"  element={<Blog/>} />
           <Route path="/login" element={
             <OpenRoute>
               <Login />

@@ -35,7 +35,7 @@ const CardBlog = ({ blog }) => {
                             <p className="text-sm text-zinc-400 mt-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae, quod...</p>
                         </div>
                         <div>
-                            <NavLink className="flex gap-2 items-center mt-2">
+                            <NavLink to={`/blog/${blog?._id}`} className="flex gap-2 items-center mt-2">
                                 <span className="text-sm text-zinc-500 border-b-2 border-zinc-400 cursor-pointer hover:text-zinc-300 duration-300 font-mono">
                                 Know More 
                                 </span>
