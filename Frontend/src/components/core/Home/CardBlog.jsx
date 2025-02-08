@@ -1,4 +1,3 @@
-import React from 'react'
 import { MdOutlineChat } from "react-icons/md";
 import { NavLink } from 'react-router-dom';
 import { FaArrowRightLong } from "react-icons/fa6";
